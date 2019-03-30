@@ -12,6 +12,8 @@ var _bodyParser = require("body-parser");
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _index = require("./database/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -20,72 +22,72 @@ var port = 8080;
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
-var scenarios = void 0;
-var id = 0;
-var games = {};
-var currentGame = void 0;
-var currentChoices = void 0;
-var currentGameData = void 0;
-
 app.get("/scenarios", function (req, res) {
-  _fs2.default.readFile("scenarios.json", "utf8", function (err, data) {
-    if (err) throw err;
-    scenarios = JSON.parse(data);
-    res.send(scenarios);
+  _index.Scenario.find().then(function (results) {
+    var scenariosList = [];
+    results.forEach(function (element) {
+      var data = { title: element.title, summary: element.summary };
+      scenariosList.push(data);
+    });
+    res.json(scenariosList);
   });
 });
 
 app.post("/game", function (req, res) {
-  var newId = id;
-  id++;
-
-  var game = {
-    id: newId,
+  var gameData = {
     scenario: req.body.scenario,
     currentStep: "initial"
   };
+  var game = new _index.Game(gameData);
 
-  games[newId] = game;
-
-  console.log("Number of games: ", Object.keys(games).length);
+  game.save().then(function (game) {
+    res.json(game);
+  });
 });
 
 app.get("/game/:id", function (req, res) {
-  currentGame = games[req.params.id];
-  currentChoices = scenarios[currentGame.scenario].nodes[currentGame.currentStep].choices;
-
-  var gameData = {
-    id: req.params.id,
-    scenario: currentGame.scenario,
-    currentStep: currentGame.currentStep,
-    choices: currentChoices
-  };
-
-  currentGameData = gameData;
-
-  res.send(gameData);
+  _index.Game.findById({ _id: req.params.id }).then(function (game) {
+    _index.Scenario.find({ title: game.scenario }).then(function (scenario) {
+      var gameSave = {
+        id: game._id,
+        scenario: game.scenario,
+        currentStep: game.currentStep,
+        story: scenario[0].nodes.get(game.currentStep).story,
+        choices: scenario[0].nodes.get(game.currentStep).choices
+      };
+      res.json(gameSave);
+    });
+  });
 });
 
 app.post("/game/:id", function (req, res) {
-  // console.log('idk what this', scenarios[currentGame.scenario].nodes[currentChoices[req.body.choiceIndex].goto])
   var choiceMade = req.body.choiceIndex;
 
-  // if scenarios has a node for the choice you just made
-  if (scenarios[currentGame.scenario].nodes[currentChoices[choiceMade].goto]) {
-    // update current game state, 
-    // update game in the database/memory
-    // update current choices
-    // read reason/progress story
-    // read new story
+  _index.Scenario.find({ title: req.body.scenario }).then(function (scenario) {
+    // console.log( scenario[0].nodes.get(req.body.currentStep).choices[choiceMade] )
+    var choice = scenario[0].nodes.get(req.body.currentStep).choices[choiceMade];
+    var newStep = {
+      currentStep: choice.goto
+    };
+    _index.Game.findOneAndUpdate({ _id: req.params.id }, newStep, { new: true }).then(function (game) {
+      var gameSave = {
+        id: req.params.id,
+        scenario: req.body.scenario,
+        currentStep: game.currentStep,
+        reason: scenario[0].nodes.get(req.body.currentStep).choices[choiceMade].reason
 
-    // its not a node, so it failed 
-  } else {
-    // read reason you failed
-    // go back to first screen to load/start a new game
-    res.send();
-  }
+      };
 
-  // res.send(currentChoices)
+      if (game.currentStep !== "failure") {
+        gameSave.story = scenario[0].nodes.get(game.currentStep).story;
+        gameSave.choices = scenario[0].nodes.get(game.currentStep).choices;
+      }
+
+      console.log(gameSave);
+
+      res.send(gameSave);
+    });
+  });
 });
 
 app.listen(port, function () {

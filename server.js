@@ -1,6 +1,7 @@
 import express from "express";
 import fs from "fs";
 import bodyParser from "body-parser";
+import db from "../dist/database/index.js";
 
 const app = express();
 const port = 8080;
@@ -70,7 +71,7 @@ app.post("/game/:id", (req, res) => {
   // its not a node, so it failed 
   } else {
     // read reason you failed
-    // go back to first screen to load/start a new game
+    // go back to first screen to load/start a new game might be better as a button on this screen
     res.send();
 
   }
@@ -81,8 +82,6 @@ app.post("/game/:id", (req, res) => {
 app.listen(port, () =>
   console.log(`Your server has connected and is listening on port: ${port}!!`)
 );
-
-
 
 
 
