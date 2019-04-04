@@ -8,6 +8,10 @@ var _fs = require("fs");
 
 var _fs2 = _interopRequireDefault(_fs);
 
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
 var _bodyParser = require("body-parser");
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -21,6 +25,8 @@ var port = 8080;
 
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
+
+app.use(_express2.default.static(_path2.default.join(__dirname, './public')));
 
 app.get("/scenarios", function (req, res) {
   _index.Scenario.find().then(function (results) {
@@ -41,7 +47,7 @@ app.post("/game", function (req, res) {
   var game = new _index.Game(gameData);
 
   game.save().then(function (game) {
-    res.json(game);
+    res.send(game);
   });
 });
 
@@ -56,6 +62,9 @@ app.get("/game/:id", function (req, res) {
         choices: scenario[0].nodes.get(game.currentStep).choices
       };
       res.json(gameSave);
+    }).catch(function (err) {
+      console.log(err);
+      res.send(err);
     });
   });
 });
@@ -64,28 +73,22 @@ app.post("/game/:id", function (req, res) {
   var choiceMade = req.body.choiceIndex;
 
   _index.Scenario.find({ title: req.body.scenario }).then(function (scenario) {
-    // console.log( scenario[0].nodes.get(req.body.currentStep).choices[choiceMade] )
     var choice = scenario[0].nodes.get(req.body.currentStep).choices[choiceMade];
     var newStep = {
       currentStep: choice.goto
     };
-    _index.Game.findOneAndUpdate({ _id: req.params.id }, newStep, { new: true }).then(function (game) {
+    _index.Game.findOneAndUpdate({ _id: req.params.id }, newStep, { new: false }).then(function (game) {
       var gameSave = {
         id: req.params.id,
         scenario: req.body.scenario,
         currentStep: game.currentStep,
-        reason: scenario[0].nodes.get(req.body.currentStep).choices[choiceMade].reason
-
+        story: scenario[0].nodes.get(game.currentStep).story,
+        choices: scenario[0].nodes.get(game.currentStep).choices
       };
-
-      if (game.currentStep !== "failure") {
-        gameSave.story = scenario[0].nodes.get(game.currentStep).story;
-        gameSave.choices = scenario[0].nodes.get(game.currentStep).choices;
-      }
-
-      console.log(gameSave);
-
       res.send(gameSave);
+    }).catch(function (err) {
+      console.log(err);
+      res.send(err);
     });
   });
 });
