@@ -3,7 +3,7 @@ import data from "../../scenarios.json"
 const Schema = mongoose.Schema;
 
 const connection = mongoose.connect(
-  "mongodb://mongo:27117/BandersGuru",
+  "mongodb://localhost/BandersGuru",
   {
     useNewUrlParser: true
   },
