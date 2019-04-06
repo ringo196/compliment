@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Schema = _mongoose2.default.Schema;
 
-var connection = _mongoose2.default.connect("mongodb://localhost/BandersGuru", {
+var connection = _mongoose2.default.connect("mongodb://mongo:27017/bandersguru", {
   useNewUrlParser: true
 }, function () {
   return console.log("MONGOOSE CONNECTED!@!@!@! GRRRREEAAAAT SUCCESSSSS!!!!!");
@@ -51,10 +51,6 @@ var gameSchema = new Schema({
 
 var Scenario = _mongoose2.default.model("Scenario", scenarioSchema);
 var Game = _mongoose2.default.model("Game", gameSchema);
-
-Scenario.collection.drop(function () {
-  Scenario.insertMany(_scenarios2.default);
-});
 
 exports.Scenario = Scenario;
 exports.Game = Game;

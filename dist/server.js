@@ -18,6 +18,10 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _scenarios = require("../scenarios.json");
+
+var _scenarios2 = _interopRequireDefault(_scenarios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -30,10 +34,7 @@ app.use(_express2.default.static(_path2.default.join(__dirname, "./public")));
 
 app.get("/scenarios", function (req, res) {
   console.log("GET /scenarios endpoint hit");
-
   _index.Scenario.find().then(function (results) {
-    console.log("GET /scenarios endpoint FIRST CALL BACK");
-
     var scenariosList = [];
     results.forEach(function (element) {
       var data = { title: element.title, summary: element.summary };
@@ -41,7 +42,6 @@ app.get("/scenarios", function (req, res) {
     });
     res.json(scenariosList);
   }).catch(function (err) {
-    console.log(err, "NO GET FILES");
     throw err;
   });
 });
@@ -106,5 +106,11 @@ if (process.env.NODE_ENV !== "test") {
     return console.log("Your server has connected and is listening on port: " + port + "!!");
   });
 }
+
+_index.Scenario.collection.drop(function () {
+  _index.Scenario.insertMany(_scenarios2.default).then(function () {
+    return console.log("inserted data");
+  });
+});
 
 module.exports = app;

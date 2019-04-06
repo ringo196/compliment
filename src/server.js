@@ -3,6 +3,7 @@ import path from "path";
 import bodyParser from "body-parser";
 import { Scenario, Game } from "./database/index.js";
 import mongoose from "mongoose";
+import scenarioData from "../scenarios.json";
 
 const app = express();
 const port = 8080;
@@ -13,21 +14,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "./public")));
 
 app.get("/scenarios", (req, res) => {
-    console.log("GET /scenarios endpoint hit")
-
-  Scenario.find().then(results => {
-        console.log("GET /scenarios endpoint FIRST CALL BACK")
-
-    let scenariosList = [];
-    results.forEach(element => {
-      let data = { title: element.title, summary: element.summary };
-      scenariosList.push(data);
+  console.log("GET /scenarios endpoint hit");
+  Scenario.find()
+    .then(results => {
+      let scenariosList = [];
+      results.forEach(element => {
+        let data = { title: element.title, summary: element.summary };
+        scenariosList.push(data);
+      });
+      res.json(scenariosList);
+    })
+    .catch(err => {
+      throw err;
     });
-    res.json(scenariosList);
-  }).catch(err => {
-    console.log(err, "NO GET FILES")
-    throw err
-  })
 });
 
 app.post("/game", (req, res) => {
@@ -38,7 +37,7 @@ app.post("/game", (req, res) => {
   let game = new Game(gameData);
 
   game.save().then(game => {
-    console.log("POST /game endpoint hit")
+    console.log("POST /game endpoint hit");
     res.send(game);
   });
 });
@@ -96,5 +95,10 @@ if (process.env.NODE_ENV !== "test") {
     console.log(`Your server has connected and is listening on port: ${port}!!`)
   );
 }
+
+Scenario.collection.drop(() => {
+  Scenario.insertMany(scenarioData)
+    .then(() => console.log("inserted data"));
+});
 
 module.exports = app;

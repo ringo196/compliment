@@ -3,7 +3,7 @@ import data from "../../scenarios.json"
 const Schema = mongoose.Schema;
 
 const connection = mongoose.connect(
-  "mongodb://localhost/BandersGuru",
+  "mongodb://mongo:27017/bandersguru",
   {
     useNewUrlParser: true
   },
@@ -44,10 +44,5 @@ const gameSchema = new Schema(
 
 const Scenario = mongoose.model("Scenario", scenarioSchema);
 const Game = mongoose.model("Game", gameSchema);
-
-Scenario.collection.drop(() => {
-  Scenario.insertMany(data);
-});
-
 
 export { Scenario, Game };
