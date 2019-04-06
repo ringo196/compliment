@@ -9,12 +9,14 @@
     "extends": [
         "standard",
         "prettier",
-        "prettier/standard"
+        "prettier/standard",
+        "plugin:jest/recommended"
     ],
     "plugins": [
         "import",
         "prettier",
-        "standard"
+        "standard",
+        "jest"
     ],
     "globals": {
         "Atomics": "readonly",

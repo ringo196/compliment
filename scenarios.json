@@ -1,67 +1,132 @@
-{
-  "BandersGuru": {
-    "summary": "Try to get recruited as a Software Engineer at Carts-Guru!",
-    "nodes": {
-      "initial": {
-        "story": "You are in front of the Carts-Guru office at 880 Harrison in San Francisco",
-        "choices": [
-          {
-            "line": "Enter the office",
-            "goto": "1",
-            "reason": "You knock and then open the door."
-          },
-          {
-            "line": "Run away in the opposite direction",
-            "goto": "failure",
-            "reason": "You ran away and improved your cardio but you're still out of a job."
-          }
-        ]
-      },
-      "1": {
-        "story": "You meet a group of Carts-Guru's finest: the Software Engineers!",
-        "choices": [
-          {
-            "line": "Start doing the backpack-kid dance to impress them.",
-            "goto": "failure",
-            "reason": "You start dancing. Suddenly, everybody dances too! But you can't stop, and everybody else either. You die of exhaustion."
-          },
-          {
-            "line": "Tell them that Android is clearly better than Apple and that whoever would argue the contrary is completely insane.",
-            "goto": "failure",
-            "reason": "You mumble something about Android being a superior mobile OS. After a 5 minutes long heated discussion, Engineers try to kill each other with their laptops. You get iKilled by a Macbook."
-          },
-          {
-            "line": "Say \"Hi! I'm #name#.\"",
-            "goto": "2",
-            "reason": "They all warmly welcome you and after a bit of chit-chat and a coffee, they invite you to follow them to a conference room for your inteview."
-          }
-        ]
-      },
-      "2": {
-        "story": "You follow them to a conference room. People sit around the table.",
-        "choices": [
-          {
-            "line": "Go on the table and do yoga",
-            "goto": "failure",
-            "reason": "You assume a yogi position on the table and start humming and meditating. After 4 hours of this, you reach Nirvana, but everybody's gone."
-          },
-          {
-            "line": "Sit below the table.",
-            "goto": "failure",
-            "reason": "You get attacked by some spiders that live under the table and die."
-          },
-          {
-            "line": "Sit on somebody's lap",
-            "goto": "failure",
-            "reason": "You casually proceed to sit on the CTO's lap. He looks at you REALLY weirdly during the entire interview."
-          },
-          {
-            "line": "Sit on a chair.",
-            "goto": "success",
-            "reason": "You sit and start interviewing. It goes surprisingly good! You get recruited as a Software Engineer!"
-          }
-        ]
-      }
+[{
+  "title": "BandersGuru",
+  "summary": "Try to get recruited as a Software Engineer at Carts-Guru!",
+  "nodes": {
+    "initial": {
+      "story": "You are in front of the Carts-Guru office at 880 Harrison in San Francisco",
+      "choices": [
+        {
+          "line": "Enter the office",
+          "goto": "1",
+          "reason": "You knock and then open the door."
+        },
+        {
+          "line": "Run away in the opposite direction",
+          "goto": "failure",
+          "reason": "You ran away and improved your cardio but you're still out of a job."
+        }
+      ]
+    },
+    "1": {
+      "story": "You meet a group of Carts-Guru's finest: the Software Engineers!",
+      "choices": [
+        {
+          "line": "Start doing the backpack-kid dance to impress them.",
+          "goto": "failure",
+          "reason": "You start dancing. Suddenly, everybody dances too! But you can't stop, and everybody else either. You die of exhaustion."
+        },
+        {
+          "line": "Tell them that Android is clearly better than Apple and that whoever would argue the contrary is completely insane.",
+          "goto": "failure",
+          "reason": "You mumble something about Android being a superior mobile OS. After a 5 minutes long heated discussion, Engineers try to kill each other with their laptops. You get iKilled by a Macbook."
+        },
+        {
+          "line": "Say \"Hi! I'm #name#.\"",
+          "goto": "2",
+          "reason": "They all warmly welcome you and after a bit of chit-chat and a coffee, they invite you to follow them to a conference room for your inteview."
+        }
+      ]
+    },
+    "2": {
+      "story": "You follow them to a conference room. People sit around the table.",
+      "choices": [
+        {
+          "line": "Go on the table and do yoga",
+          "goto": "failure",
+          "reason": "You assume a yogi position on the table and start humming and meditating. After 4 hours of this, you reach Nirvana, but everybody's gone."
+        },
+        {
+          "line": "Sit below the table.",
+          "goto": "failure",
+          "reason": "You get attacked by some spiders that live under the table and die."
+        },
+        {
+          "line": "Sit on somebody's lap",
+          "goto": "failure",
+          "reason": "You casually proceed to sit on the CTO's lap. He looks at you REALLY weirdly during the entire interview."
+        },
+        {
+          "line": "Sit on a chair.",
+          "goto": "success",
+          "reason": "You sit and start interviewing. It goes surprisingly good! You get recruited as a Software Engineer!"
+        }
+      ]
     }
-  },
-}
+  }
+},
+{
+  "title": "BandersFirstDay",
+  "summary": "Navigate through your first day on the job!",
+  "nodes": {
+    "initial": {
+      "story": "You wake up to your alarm clock, you look at the time and it says 7:00AM.",
+      "choices": [
+        {
+          "line": "Get up from bed and get ready for work",
+          "goto": "1",
+          "reason": "You shower, get breakfast and leave the house by 8:00AM"
+        },
+        {
+          "line": "You hit the snooze button.",
+          "goto": "failure",
+          "reason": "You wake up at noon and miss your first day. You're very well rested, but you get fired!"
+        }
+      ]
+    },
+    "1": {
+      "story": "You get to the office and greet everyone then sit at your new desk.",
+      "choices": [
+        {
+          "line": "Get on YouTube, and proceed to watch videos all day.",
+          "goto": "failure",
+          "reason": "You saw an amazing video of a lion tamer. You quit and join the circus!"
+        },
+        {
+          "line": "Drink some whisky from a bottle you find at your desk.",
+          "goto": "failure",
+          "reason": "You start throwing up. You find out later, that bottle belonged to the the guy you replaced and he liked mixing weird things with his alcohol."
+        },
+        {
+          "line": "Look at the onboarding materials and get to know the codebase.",
+          "goto": "2",
+          "reason": "You feel productive, and got some work done."
+        }
+      ]
+    },
+    "2": {
+      "story": "Time flies by and it's already time to go home!",
+      "choices": [
+        {
+          "line": "Rush out the of the office!",
+          "goto": "failure",
+          "reason": "You're so excited to leave, you don't realize there are glass doors and hit them running. The glass breaks, and you get taken to the hospital."
+        },
+        {
+          "line": "Hide in the closet to surprise the next person who opens it.",
+          "goto": "failure",
+          "reason": "You lock yourself in and no one opens the door till the next day. You're now known in the office as the closet-guy."
+        },
+        {
+          "line": "Invite the cute girl at work out for a drink.",
+          "goto": "failure",
+          "reason": "You go out for a drink and she invites you home. The girl turns out to be a serial killer who targets new software engineers. You die."
+        },
+        {
+          "line": "Go home.",
+          "goto": "success",
+          "reason": "After a long day of work, you eat dinner and watch some Netflix and fall asleep by 11PM."
+        }
+      ]
+    }
+  }
+}]
