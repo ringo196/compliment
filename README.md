@@ -1,3 +1,39 @@
+# Notes
+
+#### Install:
+- With Docker
+```
+docker-compose build
+docker-compose up
+```
+- Without Docker
+```
+**** Make sure you have mongodb installed and running ****
+
+npm install
+
+**** Modify line 6 src/database/index.js ****
+    "mongodb://mongo:27017/bandersguru",
+to  "mongodb://localhost/BandersGuru",
+
+npm run build
+npm start
+```
+
+#### Implementation notes:
+- Changed some minor data formatting in scenarios.json to make the object have a title key and value of BandersGuru and also the initial node had a line key that I changed to story for more consistency with the the other nodes (although I think I could have handled that by doing an || operator in the code, and adding both keys to the schema. Both these changes were done to make parsing and data entry into the db easier.
+- I modified some of the request and response payloads to match what I thought would be relevant to the app's state as it progressed.
+- There's definitely a lot of places where I can handle errors a bit better. One example is a bug I ran into when implementing docker-compose was that it wasn't hitting the db properly because I had not changed the connection code to reflect the mongo docker image. The app wasn't giving me any proper error messages or clues as to the reason for this.
+- File structure can be a bit more modular, but I decided it's a small enough app with few routes so I kept things simple.
+- Testing coverage could be better. Seems something broke as I was going along as well, as some of them are failing right now (I realize this isn't how proper TDD should have been).
+- Automatic scenarios seeding of mongodb could be better handled, possibly with a separate docker container or in a separate file.
+
+#### Features to add:
+- Ask for name at start of the game, to use for text where #name# is.
+- Clean up a couple of console.logs used for debugging.
+- Add background music, as well as some basic sound effects.
+- Separate branch for installing without docker.
+
 # bandersguru
 
 Hi and welcome on Carts-Guru's software-engineering test.
