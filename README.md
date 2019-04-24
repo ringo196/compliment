@@ -34,9 +34,7 @@ npm start
 - Add background music, as well as some basic sound effects.
 - Separate branch for installing without docker.
 
-# bandersguru
-
-Hi and welcome on Carts-Guru's software-engineering test.
+# browserRPG
 
 We ask of you to please write this test in Javascript, using `NodeJS@10.14.2`.
 
@@ -137,21 +135,21 @@ Those are for more experienced software engineers. It really is OK to not do the
 
 #### Easy
 
-- Use babel to transpile to use modern features (`import/export`...)
-- Add tests with a test framework (`jasmine`, `mocha`, `jest`...)
-- Linter + prettier (`eslint` + `prettier`) using the `Standard` convention
+DONE - Use babel to transpile to use modern features (`import/export`...)
+DONE - Add tests with a test framework (`jasmine`, `mocha`, `jest`...)
+DONE - Linter + prettier (`eslint` + `prettier`) using the `Standard` convention
 
 #### Medium:
 
-- Create a basic UI for the game. No React/no Vue. Vanilla like a boss.
-- Plug-in a database such as `Mongo` or `Postgre` instead of putting everything in memory.
+DONE - Create a basic UI for the game. No React/no Vue. Vanilla like a boss.
+DONE - Plug-in a database such as `Mongo` or `Postgre` instead of putting everything in memory.
 
 #### Hard:
 
-- Use an ORM (`sequelize`...)
+DONE - Use an ORM (`sequelize`...)
 
 #### God:
 
-- Run everything on docker-compose with live-reload. Now that's a real dev workflow!
+DONE (except no live-reload) - Run everything on docker-compose with live-reload. Now that's a real dev workflow!
 - ES6+ is too easy. Do everything in Reason.
-- Do your own scenario *:)*
+DONE - Do your own scenario *:)*

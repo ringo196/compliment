@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Schema = _mongoose2.default.Schema;
 
-var connection = _mongoose2.default.connect("mongodb://mongo:27017/bandersguru", {
+var connection = _mongoose2.default.connect("mongodb://localhost/BandersGuru", {
   useNewUrlParser: true
 }, function () {
   return console.log("MONGOOSE CONNECTED!@!@!@! GRRRREEAAAAT SUCCESSSSS!!!!!");
