@@ -1,7 +1,7 @@
 {
-  "name": "bandersguru",
+  "name": "compliment-bank",
   "version": "1.0.0",
-  "description": "Carts guru coding challenge submission by Ringo Sanchez.",
+  "description": "Compliment Bank App Backend",
   "main": "server.js",
   "scripts": {
     "lint": "eslint src**",

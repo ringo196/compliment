@@ -1,56 +1,55 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.Game = exports.Scenario = undefined;
+exports.Phrase = exports.User = undefined;
 
 var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _scenarios = require("../../scenarios.json");
-
-var _scenarios2 = _interopRequireDefault(_scenarios);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Schema = _mongoose2.default.Schema;
 
-var connection = _mongoose2.default.connect("mongodb://localhost/BandersGuru", {
-  useNewUrlParser: true
+var connection = _mongoose2.default.connect("mongodb://localhost/complimentbank", {
+    useNewUrlParser: true
 }, function () {
-  return console.log("MONGOOSE CONNECTED!@!@!@! GRRRREEAAAAT SUCCESSSSS!!!!!");
+    return console.log("MONGOOSE CONNECTED!@!@!@! GRRRREEAAAAT SUCCESSSSS!!!!!");
 });
 
-var choiceSchema = new Schema({
-  line: String,
-  goto: String,
-  reason: String
+var userSchema = new Schema({
+    userId: { type: String, unique: true, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    displayName: { type: String, required: true },
+    password: { type: String, required: true },
+    // notificationSettings: {},
+    // activeNotifications: [tagSchema],
+    // securityQuestions: [securityQuestionSchema],
+    shownPhrases: [{ type: String, unique: true }],
+    friends: [{ type: String, unique: true }],
+    lastModified: { type: Date }
+}, {
+    collection: "users"
 });
 
-var nodeSchema = new Schema({
-  story: String,
-  choices: [choiceSchema]
+var phraseSchema = new Schema({
+    userId: { type: String },
+    text: { type: String, required: true },
+    notes: { type: String },
+    date: { type: Date },
+    fromWho: { type: String },
+    location: { type: String },
+    tags: [{ type: String }], // TODO look into better way to handle this
+    lastModified: { type: Date }
+}, {
+    collection: "phrases"
 });
 
-var scenarioSchema = new Schema({
-  title: String,
-  summary: String,
-  nodes: {
-    type: Map,
-    of: nodeSchema
-  }
-}, { collection: "scenarios" });
+var User = _mongoose2.default.model("User", userSchema);
+var Phrase = _mongoose2.default.model("Phrase", phraseSchema);
 
-var gameSchema = new Schema({
-  _id: { type: Schema.ObjectId, auto: true },
-  scenario: String,
-  currentStep: String
-}, { collection: "games" });
-
-var Scenario = _mongoose2.default.model("Scenario", scenarioSchema);
-var Game = _mongoose2.default.model("Game", gameSchema);
-
-exports.Scenario = Scenario;
-exports.Game = Game;
+exports.User = User;
+exports.Phrase = Phrase;
